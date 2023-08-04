@@ -12,6 +12,7 @@
     "@clerk/nextjs": "^4.23.2",
     "@next-auth/prisma-adapter": "^0.4.4-canary.81",
     "@prisma/client": "^5.1.0",
+    "@radix-ui/react-dialog": "^1.0.4",
     "@radix-ui/react-slot": "^1.0.2",
     "@types/bcrypt": "^5.0.0",
     "@types/node": "20.4.6",
