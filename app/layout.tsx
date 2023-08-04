@@ -1,15 +1,12 @@
 import './globals.css';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
-import AuthContext from './context/AuthContext';
-import SideBar from './components/SideBar';
-import Body from './components/Body';
 
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
     title: 'Genius AI',
-    description: 'created by openAI ',
+    description: 'AI platform',
 };
 
 export default function RootLayout({
@@ -19,13 +16,7 @@ export default function RootLayout({
 }) {
     return (
         <html lang="en">
-            <body className={inter.className}>
-                <AuthContext>
-                    <SideBar />
-                    <Body />
-                    {children}
-                </AuthContext>
-            </body>
+            <body className={inter.className}>{children}</body>
         </html>
     );
 }
