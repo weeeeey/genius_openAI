@@ -11,7 +11,10 @@ import { formSchema } from './constants';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-
+import { useRouter } from 'next/navigation';
+import axios from 'axios';
+import { useState } from 'react';
+import { ChatCompletionRequestMessage } from 'openai';
 const ConversationPage = () => {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -19,11 +22,29 @@ const ConversationPage = () => {
             prompt: '',
         },
     });
-
+    const [messages, setMessages] = useState<ChatCompletionRequestMessage[]>(
+        []
+    );
     const isLoading = form.formState.isSubmitting;
+    const router = useRouter();
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
-        console.log(values);
+        try {
+            const userMessage: ChatCompletionRequestMessage = {
+                role: 'user',
+                content: values.prompt,
+            };
+            const newMessages = [...messages, userMessage];
+            const response = await axios.post('/api/conversation', {
+                messages: newMessages,
+            });
+            setMessages((current) => [...current, userMessage, response.data]);
+            form.reset();
+        } catch (error) {
+            console.log(error);
+        } finally {
+            router.refresh();
+        }
     };
 
     return (
@@ -50,7 +71,7 @@ const ConversationPage = () => {
                                             <Input
                                                 disabled={isLoading}
                                                 placeholder="How do i calculate the radius of a circle"
-                                                className="border-0 outline-none focus-visible:ring-0 focus-visible:ring-transparent"
+                                                className="border-0 outline-none focus-visible:ring-0 focus-visible:ring-transparent text-lg"
                                                 {...field}
                                             />
                                         </FormControl>

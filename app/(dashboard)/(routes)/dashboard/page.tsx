@@ -7,10 +7,8 @@ import {
     ImageIcon,
     MessageSquare,
     Music,
-    Settings,
     VideoIcon,
 } from 'lucide-react';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 
@@ -69,6 +67,7 @@ const DashboardPage = () => {
                 {tools.map((tool) => (
                     <Card
                         key={tool.href}
+                        id={tool.href}
                         onClick={() => {
                             router.push(tool.href);
                         }}
