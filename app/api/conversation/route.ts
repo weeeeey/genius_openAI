@@ -14,7 +14,6 @@ export async function POST(req: Request) {
         const { userId } = auth();
         const body = await req.json();
         const { messages } = body;
-
         if (!userId) {
             return new NextResponse('Unauthorized', { status: 401 });
         }
@@ -26,6 +25,7 @@ export async function POST(req: Request) {
         if (!messages) {
             new NextResponse('Messages are required', { status: 400 });
         }
+
         const response = await openai.createChatCompletion({
             model: 'gpt-3.5-turbo',
             messages,

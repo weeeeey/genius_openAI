@@ -1,25 +1,28 @@
 'use client';
 
 import { MessageSquare } from 'lucide-react';
-import Heading from '@/components/heading';
-import { Form, FormControl, FormField, FormItem } from '@/components/ui/form';
-
-import { useForm } from 'react-hook-form';
 
 import * as z from 'zod';
-import { formSchema } from './constants';
 import { zodResolver } from '@hookform/resolvers/zod';
+
+import { formSchema } from './constants';
+import { Form, FormControl, FormField, FormItem } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { useRouter } from 'next/navigation';
-import axios from 'axios';
-import { useState } from 'react';
-import { ChatCompletionRequestMessage } from 'openai';
+
+import Heading from '@/components/heading';
 import Empty from '@/components/empty';
 import Loader from '@/components/loader';
-import { cn } from '@/lib/utils';
 import UserAvarar from '@/components/user-avarar';
 import BotAvatar from '@/components/bot-avatar';
+
+import axios from 'axios';
+import { useRouter } from 'next/navigation';
+import { useForm } from 'react-hook-form';
+import { useState } from 'react';
+import { ChatCompletionRequestMessage } from 'openai';
+import { cn } from '@/lib/utils';
+
 const ConversationPage = () => {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -51,6 +54,27 @@ const ConversationPage = () => {
             router.refresh();
         }
     };
+    // const onSubmit = (values: z.infer<typeof formSchema>) => {
+    //     const userMessage: ChatCompletionRequestMessage = {
+    //         role: 'user',
+    //         content: values.prompt,
+    //     };
+    //     const newMessages = [...messages, userMessage];
+    //     axios
+    //         .post('/api/conversation', {
+    //             messages: newMessages,
+    //         })
+    //         .then((res) => {
+    //             setMessages((cur) => [...cur, userMessage, res.data]);
+    //             form.reset();
+    //         })
+    //         .catch((e) => {
+    //             console.log(e);
+    //         })
+    //         .finally(() => {
+    //             router.refresh();
+    //         });
+    // };
 
     return (
         <div>
@@ -69,7 +93,7 @@ const ConversationPage = () => {
                             className="rounded-lg border w-full p-4 px-3 md:px-6 focus-within:shadow-sm grid grid-cols-12 gap-2"
                         >
                             <FormField
-                                name="propmt"
+                                name="prompt"
                                 render={({ field }) => (
                                     <FormItem className="col-span-12 lg:col-span-10">
                                         <FormControl className="m-0 p-0">
@@ -105,14 +129,12 @@ const ConversationPage = () => {
                         {messages.map((m) => (
                             <div
                                 key={m.content}
-                                className={
-                                    (cn(
-                                        'p-8 w-full flex items-start gap-x-8 rounded-lg '
-                                    ),
+                                className={cn(
+                                    'p-8 w-full flex items-start gap-x-8 rounded-lg  ',
                                     m.role === 'user'
                                         ? 'bg-white border border-black/10'
-                                        : 'bg-muted')
-                                }
+                                        : 'bg-muted'
+                                )}
                             >
                                 {m.role === 'user' ? (
                                     <UserAvarar />
