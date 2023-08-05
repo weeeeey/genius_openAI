@@ -130,19 +130,23 @@ const ConversationPage = () => {
                             <div
                                 key={m.content}
                                 className={cn(
-                                    'p-8 w-full flex items-start gap-x-8 rounded-lg  ',
+                                    'p-8 w-full flex items-start   gap-x-8 rounded-lg  ',
                                     m.role === 'user'
-                                        ? 'bg-white border border-black/10'
-                                        : 'bg-muted'
+                                        ? 'bg-white border border-black/10  justify-end'
+                                        : 'bg-muted '
                                 )}
                             >
                                 {m.role === 'user' ? (
-                                    <UserAvarar />
+                                    <>
+                                        <p className="text-sm">{m.content}</p>
+                                        <UserAvarar />
+                                    </>
                                 ) : (
-                                    <BotAvatar />
+                                    <>
+                                        <BotAvatar />
+                                        <p className="text-sm">{m.content}</p>
+                                    </>
                                 )}
-
-                                <p className="text-sm">{m.content}</p>
                             </div>
                         ))}
                     </div>
