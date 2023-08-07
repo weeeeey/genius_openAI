@@ -1,14 +1,7 @@
 'use client';
 import { Card } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
-import {
-    ArrowRight,
-    Code,
-    ImageIcon,
-    MessageSquare,
-    Music,
-    VideoIcon,
-} from 'lucide-react';
+import { ArrowRight, Code, ImageIcon, MessageSquare } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 
@@ -28,20 +21,7 @@ const tools = [
         color: 'text-pink-700',
         bgColor: 'bg-pink-700/10',
     },
-    {
-        label: 'Video Generaion',
-        icon: VideoIcon,
-        href: '/video',
-        color: 'text-orange-500',
-        bgColor: 'bg-orange-500/10',
-    },
-    {
-        label: 'Music Generation',
-        icon: Music,
-        href: '/music',
-        color: 'text-emerald-500',
-        bgColor: 'bg-emerald-500/10',
-    },
+
     {
         label: 'Code Generation',
         icon: Code,

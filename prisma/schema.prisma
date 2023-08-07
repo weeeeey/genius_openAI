@@ -10,44 +10,19 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
+model UserApiLimit {
   id             String    @id @default(auto()) @map("_id") @db.ObjectId
-  email          String?   @unique
-  emailVerified  DateTime?
-  name           String?
-  image          String?
-  hashedPassword String?
-
+  userId    String   @unique
+  count     Int      @default(0)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
-  accounts Account[]
-  sessions Session[]
 }
 
-model Account {
-  id                String  @id @default(auto()) @map("_id") @db.ObjectId
-  type              String
-  provider          String
-  providerAccountId String
-  refresh_token     String? @db.String
-  access_token      String? @db.String
-  expires_at        Int?
-  token_type        String?
-  scope             String?
-  id_token          String? @db.String
-  session_state     String?
-
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId String @db.ObjectId
-
-  @@unique([provider, providerAccountId])
-}
-
-model Session {
-  id           String   @id @default(auto()) @map("_id") @db.ObjectId
-  sessionToken String   @unique
-  userId       String   @db.ObjectId
-  expires      DateTime
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+model UserSubscription {
+  id             String    @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String   @unique
+  stripeCustomerId       String?   @unique @map(name: "stripe_customer_id")
+  stripeSubscriptionId   String?   @unique @map(name: "stripe_subscription_id")
+  stripePriceId          String?   @map(name: "stripe_price_id")
+  stripeCurrentPeriodEnd DateTime? @map(name: "stripe_current_period_end")
 }

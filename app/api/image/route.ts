@@ -23,27 +23,27 @@ export async function POST(req: Request) {
         }
         if (!configuration.apiKey) {
             new NextResponse('OpenAI API KEY not configuration', {
-                status: 500,
+                status: 401,
             });
         }
         if (!prompt) {
             return new NextResponse('It is not accept prompt', {
-                status: 401,
+                status: 400,
             });
         }
         if (!amount) {
             return new NextResponse('It is not accept amount', {
-                status: 401,
+                status: 400,
             });
         }
         if (!resolution) {
             return new NextResponse('It is not accept resolution', {
-                status: 401,
+                status: 400,
             });
         }
         const response = await openai.createImage({
             prompt,
-            n: 1,
+            n: parseInt(amount, 10),
             size: resolution,
         });
 
