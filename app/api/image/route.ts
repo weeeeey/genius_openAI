@@ -15,28 +15,39 @@ const openai = new OpenAIApi(configuration);
 
 export async function POST(req: Request) {
     try {
-        const { user } = auth();
+        const { userId } = auth();
         const body = await req.json();
-        const { prompt } = body;
-        // if (!user) {
-        //     return new NextResponse('Not Authorized', { status: 401 });
-        // }
+        const { prompt, amount = 1, resolution = '512*512' } = body;
+        if (!userId) {
+            return new NextResponse('Not Authorized', { status: 401 });
+        }
+        if (!configuration.apiKey) {
+            new NextResponse('OpenAI API KEY not configuration', {
+                status: 500,
+            });
+        }
         if (!prompt) {
-            return new NextResponse('It is not accept message', {
+            return new NextResponse('It is not accept prompt', {
                 status: 401,
             });
         }
-        openai.createChatCompletion;
-        const response = await openai.createImage({
-            user: user?.id,
-            prompt: prompt,
-            n: 1,
-            size: '256x256',
-        });
-        if (!response) {
-            return new NextResponse('Internal Error', { status: 500 });
+        if (!amount) {
+            return new NextResponse('It is not accept amount', {
+                status: 401,
+            });
         }
-        return NextResponse.json(response.data.data[0].url);
+        if (!resolution) {
+            return new NextResponse('It is not accept resolution', {
+                status: 401,
+            });
+        }
+        const response = await openai.createImage({
+            prompt,
+            n: 1,
+            size: resolution,
+        });
+
+        return NextResponse.json(response.data.data);
     } catch (error) {
         console.log(error);
         return new NextResponse('Internal Error', { status: 500 });
