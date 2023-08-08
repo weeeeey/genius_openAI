@@ -57,7 +57,7 @@ interface SidebarProps {
     isPro: boolean;
 }
 
-const Sidebar = ({ apiLimitCount, isPro }: SidebarProps) => {
+const Sidebar = ({ apiLimitCount = 0, isPro = true }: SidebarProps) => {
     const pathname = usePathname();
     return (
         <div className="space-y-4 flex flex-col py-4 h-full bg-[#111827] text-white">
