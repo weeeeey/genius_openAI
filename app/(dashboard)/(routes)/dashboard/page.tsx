@@ -1,5 +1,6 @@
 'use client';
 import { Card } from '@/components/ui/card';
+import { getAPICount } from '@/lib/api-limit';
 import { cn } from '@/lib/utils';
 import { ArrowRight, Code, ImageIcon, MessageSquare } from 'lucide-react';
 import { useRouter } from 'next/navigation';

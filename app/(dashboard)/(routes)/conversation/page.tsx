@@ -22,6 +22,7 @@ import { useForm } from 'react-hook-form';
 import { useState } from 'react';
 import { ChatCompletionRequestMessage } from 'openai';
 import { cn } from '@/lib/utils';
+import { increaseAPILimit } from '@/lib/api-limit';
 
 const ConversationPage = () => {
     const form = useForm<z.infer<typeof formSchema>>({
@@ -54,27 +55,6 @@ const ConversationPage = () => {
             router.refresh();
         }
     };
-    // const onSubmit =  (values: z.infer<typeof formSchema>) => {
-    //     const userMessage: ChatCompletionRequestMessage = {
-    //         role: 'user',
-    //         content: values.prompt,
-    //     };
-    //     const newMessages = [...messages, userMessage];
-    //     axios
-    //         .post('/api/conversation', {
-    //             messages: newMessages,
-    //         })
-    //         .then((res) => {
-    //             setMessages((cur) => [...cur, userMessage, res.data]);
-    //             form.reset();
-    //         })
-    //         .catch((e) => {
-    //             console.log(e);
-    //         })
-    //         .finally(() => {
-    //             router.refresh();
-    //         });
-    // };
 
     return (
         <div>

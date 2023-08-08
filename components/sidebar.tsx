@@ -13,6 +13,7 @@ import { Montserrat } from 'next/font/google';
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
+import FreeCounter from './free-counter';
 
 const montserrat = Montserrat({
     weight: '600',
@@ -51,8 +52,12 @@ const routes = [
         href: '/settings',
     },
 ];
+interface SidebarProps {
+    apiLimitCount: number;
+    isPro: boolean;
+}
 
-const Sidebar = () => {
+const Sidebar = ({ apiLimitCount, isPro }: SidebarProps) => {
     const pathname = usePathname();
     return (
         <div className="space-y-4 flex flex-col py-4 h-full bg-[#111827] text-white">
@@ -95,6 +100,7 @@ const Sidebar = () => {
                     ))}
                 </div>
             </div>
+            <FreeCounter apiLimitCount={apiLimitCount} isPro={isPro} />
         </div>
     );
 };

@@ -1,3 +1,4 @@
+import { checkAPILimit, increaseAPILimit } from '@/lib/api-limit';
 import { auth } from '@clerk/nextjs';
 import { NextResponse } from 'next/server';
 import { Configuration, OpenAIApi } from 'openai';
@@ -41,11 +42,17 @@ export async function POST(req: Request) {
                 status: 400,
             });
         }
+        const check = await checkAPILimit();
+        if (!check) {
+            return new NextResponse('Exceed api call count', { status: 403 });
+        }
+
         const response = await openai.createImage({
             prompt,
             n: parseInt(amount, 10),
             size: resolution,
         });
+        await increaseAPILimit();
 
         return NextResponse.json(response.data.data);
     } catch (error) {

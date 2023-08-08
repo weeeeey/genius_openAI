@@ -1,3 +1,4 @@
+import { checkAPILimit, increaseAPILimit } from '@/lib/api-limit';
 import { auth } from '@clerk/nextjs';
 import { NextResponse } from 'next/server';
 
@@ -31,11 +32,16 @@ export async function POST(req: Request) {
         if (!messages) {
             new NextResponse('Messages are required', { status: 400 });
         }
+        const check = await checkAPILimit();
+        if (!check) {
+            return new NextResponse('Exceed api call count', { status: 403 });
+        }
 
         const response = await openai.createChatCompletion({
             model: 'gpt-3.5-turbo',
             messages: [instructionMessage, ...messages],
         });
+        await increaseAPILimit();
 
         return NextResponse.json(response.data.choices[0].message);
     } catch (error) {
