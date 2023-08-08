@@ -1,6 +1,3 @@
-import { useModal } from '@/hooks/use-pro-modal';
-import React, { useEffect, useState } from 'react';
-import { Progress } from './ui/progress';
 import * as ProgressPrimitive from '@radix-ui/react-progress';
 import { cn } from '@/lib/utils';
 
@@ -13,7 +10,6 @@ const FreeCounter = ({
     apiLimitCount = 0,
     isPro = false,
 }: FreeCounterProps) => {
-    const Modal = useModal();
     const value = (apiLimitCount / 5) * 100;
 
     return (
