@@ -5,7 +5,6 @@ import { Button } from '@/components/ui/button';
 import { Menu } from 'lucide-react';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import Sidebar from '@/components/sidebar';
-import { getAPICount } from '@/lib/api-limit';
 
 interface MobileSidebarProps {
     apiLimitCount: number;
